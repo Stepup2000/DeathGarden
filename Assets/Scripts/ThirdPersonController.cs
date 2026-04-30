@@ -18,6 +18,7 @@ public class ThirdPersonController : MonoBehaviour
 
     private CharacterController controller;
     private InputSystem_Actions input;
+    private Animator animator;
 
     private Vector2 moveInput;
     private Vector2 lookInput;
@@ -31,6 +32,7 @@ public class ThirdPersonController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         input = new InputSystem_Actions();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Start()
@@ -69,6 +71,9 @@ public class ThirdPersonController : MonoBehaviour
     void HandleMovement()
     {
         Vector3 inputDir = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+
+        bool isWalking = inputDir.magnitude >= 0.1f;
+        animator.SetBool("IsWalking", isWalking);
 
         if (inputDir.magnitude >= 0.1f)
         {
