@@ -31,8 +31,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Human|Idle
-      takeName: Human|Idle
+      name: Idle
+      takeName: Idle
       internalID: 7331179735622770538
       firstFrame: 0
       lastFrame: 47
@@ -60,11 +60,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Human|Jump
-      takeName: Human|Jump
+      name: Jump
+      takeName: Jump
       internalID: 1158791416237569947
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -89,11 +89,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Human|Running.Beg
-      takeName: Human|Running.Beg
+      name: 'Running '
+      takeName: 'Running '
       internalID: 4226729287780673864
       firstFrame: 0
-      lastFrame: 11
+      lastFrame: 47
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -118,39 +118,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Human|Running.End
-      takeName: Human|Running.End
+      name: Leap
+      takeName: Leap
       internalID: -1449862090280730691
       firstFrame: 0
-      lastFrame: 11
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Human|Running.Mid
-      takeName: Human|Running.Mid
-      internalID: -6463150154349274874
-      firstFrame: 0
       lastFrame: 23
       wrapMode: 0
       orientationOffsetY: 0
@@ -176,37 +147,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Human|Running.Mid.001
-      takeName: Human|Running.Mid.001
-      internalID: -5436082583257243570
-      firstFrame: 0
-      lastFrame: 23
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Human|Walking
-      takeName: Human|Walking
+      name: Walking
+      takeName: Walking
       internalID: 1476160541953970176
       firstFrame: 0
       lastFrame: 47
