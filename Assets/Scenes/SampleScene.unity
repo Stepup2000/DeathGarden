@@ -578,8 +578,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  sprintSpeed: 8
+  runSpeed: 8
   rotationSmoothTime: 0.1
+  runThreshold: 1
   jumpHeight: 1.5
   gravity: -9.81
   cameraTransform: {fileID: 330585546}
@@ -727,15 +728,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7af176c5df7260a4182f89fbd442b7a2, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7af176c5df7260a4182f89fbd442b7a2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7af176c5df7260a4182f89fbd442b7a2, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7af176c5df7260a4182f89fbd442b7a2, type: 3}
       propertyPath: m_LocalPosition.x

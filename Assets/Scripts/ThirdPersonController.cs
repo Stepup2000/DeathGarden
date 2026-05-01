@@ -6,8 +6,9 @@ public class ThirdPersonController : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
-    public float sprintSpeed = 8f;
+    public float runSpeed = 8f;
     public float rotationSmoothTime = 0.1f;
+    public float runThreshold = 1;
 
     [Header("Jump & Gravity")]
     public float jumpHeight = 1.5f;
@@ -71,22 +72,21 @@ public class ThirdPersonController : MonoBehaviour
     void HandleMovement()
     {
         Vector3 inputDir = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+        bool isMoving = inputDir.magnitude >= 0.1f;
+        bool isRunning = sprinting && isMoving;
 
-        bool isWalking = inputDir.magnitude >= 0.1f;
-        animator.SetBool("IsWalking", isWalking);
-
-        if (inputDir.magnitude >= 0.1f)
+        if (isMoving)
         {
             float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationVelocity, rotationSmoothTime);
 
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-            float speed = sprinting ? sprintSpeed : moveSpeed;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; float speed = isRunning ? runSpeed : moveSpeed;
+            controller.Move(moveDir * speed * Time.deltaTime);
         }
+
+        float currentSpeed = controller.velocity.magnitude;
+        float animSpeed = currentSpeed / runSpeed; animator.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
     }
 
     void HandleGravity()
