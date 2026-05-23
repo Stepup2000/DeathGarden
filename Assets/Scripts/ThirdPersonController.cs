@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class ThirdPersonController : MonoBehaviour
+public class ThirdPersonController : MonoBehaviour, IPresser
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
