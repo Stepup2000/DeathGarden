@@ -5,6 +5,7 @@ public class GateController : MonoBehaviour
 {
     [Header("Gate")]
     [SerializeField] private string openTrigger = "Open";
+    [SerializeField] private float colliderDelay = 1.25f;
 
     [Header("Plates")]
     [SerializeField] private PressurePlate[] plates;
@@ -82,12 +83,19 @@ public class GateController : MonoBehaviour
     {
         isOpen = true;
 
-        if (gateCollider != null)
-            gateCollider.enabled = false;
-
         if (animator != null)
             animator.SetTrigger(openTrigger);
 
+        StartCoroutine(DisableColliderAfterDelay(colliderDelay));
+
         Debug.Log("Gate opened");
+    }
+
+    private System.Collections.IEnumerator DisableColliderAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (gateCollider != null)
+            gateCollider.enabled = false;
     }
 }

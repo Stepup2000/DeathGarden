@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openTrigger: Open
+  colliderDelay: 3
   plates:
   - {fileID: 6906205004374878537}
 --- !u!114 &936244816843600339
