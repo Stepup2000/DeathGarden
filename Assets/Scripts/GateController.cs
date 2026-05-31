@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GateController : MonoBehaviour
@@ -7,6 +8,8 @@ public class GateController : MonoBehaviour
 
     [Header("Plates")]
     [SerializeField] private PressurePlate[] plates;
+
+    public event Action<int> OnPressedPlateCountChanged;
 
     private Animator animator;
     private Collider gateCollider;
@@ -39,7 +42,26 @@ public class GateController : MonoBehaviour
 
     private void HandlePlateChanged(IPresser presser, bool pressed)
     {
+        int pressedCount = GetPressedPlateCount();
+        OnPressedPlateCountChanged?.Invoke(pressedCount);
+
         CheckState();
+    }
+
+    private int GetPressedPlateCount()
+    {
+        if (plates == null)
+            return 0;
+
+        int count = 0;
+
+        foreach (var plate in plates)
+        {
+            if (plate != null && plate.IsPressed)
+                count++;
+        }
+
+        return count;
     }
 
     private void CheckState()
