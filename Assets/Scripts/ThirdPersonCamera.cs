@@ -77,7 +77,7 @@ public class ThirdPersonCamera : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
 
         // Point the camera rotates around
-        Vector3 pivot = target.position + Vector3.up * height;
+        Vector3 pivot = target.position + Vector3.up * (height * 0.4f);
 
         // Desired camera position
         Vector3 desiredPosition =
