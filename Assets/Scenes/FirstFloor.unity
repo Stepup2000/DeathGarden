@@ -1419,8 +1419,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 353658113}
-  offset: {x: 0, y: 4, z: -10}
   sensitivity: 0.25
+  minPitch: -30
+  maxPitch: 60
+  minDistance: 2
+  maxDistance: 8
+  zoomSpeed: 0.1
+  height: 2
+  collisionRadius: 0.3
+  collisionSmoothSpeed: 10
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &419537557
 MonoBehaviour:
   m_ObjectHideFlags: 0
