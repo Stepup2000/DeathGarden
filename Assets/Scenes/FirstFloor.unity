@@ -1286,9 +1286,10 @@ MonoBehaviour:
   moveSpeed: 2.5
   runSpeed: 6
   rotationSmoothTime: 0.1
-  runThreshold: 1
   jumpHeight: 1.5
-  gravity: -9.81
+  gravity: -15.32
+  coyoteTime: 0.15
+  jumpBufferTime: 0.15
   cameraTransform: {fileID: 419537555}
 --- !u!143 &353658111
 CharacterController:

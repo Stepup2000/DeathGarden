@@ -8,11 +8,14 @@ public class ThirdPersonController : MonoBehaviour, IPresser
     public float moveSpeed = 5f;
     public float runSpeed = 8f;
     public float rotationSmoothTime = 0.1f;
-    public float runThreshold = 1;
 
     [Header("Jump & Gravity")]
     public float jumpHeight = 1.5f;
     public float gravity = -9.81f;
+
+    [Header("Jump Assist")]
+    public float coyoteTime = 0.15f;
+    public float jumpBufferTime = 0.15f;
 
     [Header("Camera")]
     public Transform cameraTransform;
@@ -22,12 +25,13 @@ public class ThirdPersonController : MonoBehaviour, IPresser
     private Animator animator;
 
     private Vector2 moveInput;
-    private Vector2 lookInput;
     private bool sprinting;
-    private bool jumpPressed;
 
     private float velocityY;
     private float rotationVelocity;
+
+    private float coyoteCounter;
+    private float jumpBufferCounter;
 
     void Awake()
     {
@@ -49,10 +53,7 @@ public class ThirdPersonController : MonoBehaviour, IPresser
         input.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         input.Player.Move.canceled += _ => moveInput = Vector2.zero;
 
-        input.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
-        input.Player.Look.canceled += _ => lookInput = Vector2.zero;
-
-        input.Player.Jump.performed += _ => jumpPressed = true;
+        input.Player.Jump.performed += _ => jumpBufferCounter = jumpBufferTime;
 
         input.Player.Sprint.performed += _ => sprinting = true;
         input.Player.Sprint.canceled += _ => sprinting = false;
@@ -65,42 +66,66 @@ public class ThirdPersonController : MonoBehaviour, IPresser
 
     void Update()
     {
-        HandleMovement();
-        HandleGravity();
+        jumpBufferCounter -= Time.deltaTime;
+
+        if (controller.isGrounded)
+            coyoteCounter = coyoteTime;
+        else
+            coyoteCounter -= Time.deltaTime;
+
+        HandleMovementAndGravity();
     }
 
-    void HandleMovement()
+    void HandleMovementAndGravity()
     {
-        Vector3 inputDir = new Vector3(moveInput.x, 0, moveInput.y).normalized;
-        bool isMoving = inputDir.magnitude >= 0.1f;
+        Vector3 inputDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+
+        bool isMoving = inputDir.magnitude > 0.1f;
         bool isRunning = sprinting && isMoving;
+
+        Vector3 moveDir = Vector3.zero;
 
         if (isMoving)
         {
-            float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationVelocity, rotationSmoothTime);
+            float targetAngle =
+                Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg +
+                cameraTransform.eulerAngles.y;
+
+            float angle = Mathf.SmoothDampAngle(
+                transform.eulerAngles.y,
+                targetAngle,
+                ref rotationVelocity,
+                rotationSmoothTime);
 
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; float speed = isRunning ? runSpeed : moveSpeed;
-            controller.Move(moveDir * speed * Time.deltaTime);
+
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
 
-        float currentSpeed = controller.velocity.magnitude;
-        float animSpeed = currentSpeed / runSpeed; animator.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
-    }
-
-    void HandleGravity()
-    {
-        if (controller.isGrounded && velocityY < 0)
-            velocityY = -2f;
-
-        if (jumpPressed && controller.isGrounded)
+        // Jump
+        if (jumpBufferCounter > 0f && coyoteCounter > 0f)
         {
             velocityY = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            jumpPressed = false;
+
+            jumpBufferCounter = 0f;
+            coyoteCounter = 0f;
         }
 
+        // Ground stick
+        if (controller.isGrounded && velocityY < 0f)
+            velocityY = -2f;
+
+        // Gravity
         velocityY += gravity * Time.deltaTime;
-        controller.Move(Vector3.up * velocityY * Time.deltaTime);
+
+        float speed = isRunning ? runSpeed : moveSpeed;
+
+        Vector3 velocity = moveDir * speed;
+        velocity.y = velocityY;
+
+        controller.Move(velocity * Time.deltaTime);
+
+        float currentSpeed = new Vector3(controller.velocity.x, 0f, controller.velocity.z).magnitude;
+        animator.SetFloat("Speed", currentSpeed / runSpeed, 0.1f, Time.deltaTime);
     }
 }
