@@ -1286,7 +1286,7 @@ MonoBehaviour:
   moveSpeed: 2.5
   runSpeed: 6
   rotationSmoothTime: 0.1
-  jumpHeight: 1.5
+  jumpHeight: 1.65
   gravity: -15.32
   coyoteTime: 0.15
   jumpBufferTime: 0.15
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   maxPitch: 60
   minDistance: 2
   maxDistance: 8
-  zoomSpeed: 0.1
+  zoomSpeed: 0.25
   height: 2
   collisionRadius: 0.3
   collisionSmoothSpeed: 10

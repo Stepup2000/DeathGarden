@@ -33,6 +33,9 @@ public class ThirdPersonController : MonoBehaviour, IPresser
     private float coyoteCounter;
     private float jumpBufferCounter;
 
+    // True once we've left the ground.
+    private bool wasAirborne;
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -109,11 +112,9 @@ public class ThirdPersonController : MonoBehaviour, IPresser
 
             jumpBufferCounter = 0f;
             coyoteCounter = 0f;
-        }
 
-        // Ground stick
-        if (controller.isGrounded && velocityY < 0f)
-            velocityY = -2f;
+            animator.SetTrigger("OnJump");
+        }
 
         // Gravity
         velocityY += gravity * Time.deltaTime;
@@ -124,6 +125,28 @@ public class ThirdPersonController : MonoBehaviour, IPresser
         velocity.y = velocityY;
 
         controller.Move(velocity * Time.deltaTime);
+
+        bool isGrounded = controller.isGrounded;
+
+        if (!isGrounded)
+        {
+            wasAirborne = true;
+        }
+
+        // Landing
+        if (wasAirborne && isGrounded)
+        {
+            wasAirborne = false;
+            animator.SetTrigger("OnLand");
+        }
+
+        // Stick to the ground
+        if (isGrounded && velocityY < 0f)
+        {
+            velocityY = -2f;
+        }
+
+        animator.SetBool("IsFalling", !isGrounded && velocityY < 0f);
 
         float currentSpeed = new Vector3(controller.velocity.x, 0f, controller.velocity.z).magnitude;
         animator.SetFloat("Speed", currentSpeed / runSpeed, 0.1f, Time.deltaTime);
