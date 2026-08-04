@@ -20,6 +20,11 @@ public class ThirdPersonController : MonoBehaviour, IPresser
     [Header("Camera")]
     public Transform cameraTransform;
 
+    public BoxCollider attackCollider;
+    private float attackCooldown = 0.5f;
+    private bool isAttacking;
+    private float lastAttackTime;
+
     private CharacterController controller;
     private InputSystem_Actions input;
     private Animator animator;
@@ -47,6 +52,8 @@ public class ThirdPersonController : MonoBehaviour, IPresser
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        DisableAttackHitbox();
     }
 
     void OnEnable()
@@ -60,6 +67,7 @@ public class ThirdPersonController : MonoBehaviour, IPresser
 
         input.Player.Sprint.performed += _ => sprinting = true;
         input.Player.Sprint.canceled += _ => sprinting = false;
+        input.Player.Attack.performed += _ => Attack();
     }
 
     void OnDisable()
@@ -150,5 +158,37 @@ public class ThirdPersonController : MonoBehaviour, IPresser
 
         float currentSpeed = new Vector3(controller.velocity.x, 0f, controller.velocity.z).magnitude;
         animator.SetFloat("Speed", currentSpeed / runSpeed, 0.1f, Time.deltaTime);
+    }
+
+    void Attack()
+    {
+        if (isAttacking)
+            return;
+
+        if (Time.time < lastAttackTime + attackCooldown)
+            return;
+
+        isAttacking = true;
+        lastAttackTime = Time.time;
+
+        animator.SetTrigger("OnAttack");
+    }
+
+    public void EnableAttackHitbox()
+    {
+        if (attackCollider != null)
+            attackCollider.enabled = true;
+    }
+
+    public void DisableAttackHitbox()
+    {
+        if (attackCollider != null)
+            attackCollider.enabled = false;
+    }
+
+    public void EndAttack()
+    {
+        DisableAttackHitbox();
+        isAttacking = false;
     }
 }
