@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Enemy : IDamagable
+public class Enemy : MonoBehaviour, IDamagable
 {
-    public int health { get; set; } = 100;
+    [SerializeField] private int health = 100;
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -14,7 +14,6 @@ public class Enemy : IDamagable
 
     public void Die()
     {
-        // Implement death logic here
-        Debug.Log("Enemy died.");
+        Destroy(gameObject);
     }
 }

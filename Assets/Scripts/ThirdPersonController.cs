@@ -20,7 +20,7 @@ public class ThirdPersonController : MonoBehaviour, IPresser
     [Header("Camera")]
     public Transform cameraTransform;
 
-    public BoxCollider attackCollider;
+    public GameObject AttackHitbox;
     private float attackCooldown = 0.5f;
     private bool isAttacking;
     private float lastAttackTime;
@@ -172,18 +172,19 @@ public class ThirdPersonController : MonoBehaviour, IPresser
         lastAttackTime = Time.time;
 
         animator.SetTrigger("OnAttack");
+        EnableAttackHitbox();
     }
 
     public void EnableAttackHitbox()
     {
-        if (attackCollider != null)
-            attackCollider.enabled = true;
+        if (AttackHitbox != null)
+            AttackHitbox.gameObject.SetActive(true);
     }
 
     public void DisableAttackHitbox()
     {
-        if (attackCollider != null)
-            attackCollider.enabled = false;
+        if (AttackHitbox != null)
+            AttackHitbox.gameObject.SetActive(false);
     }
 
     public void EndAttack()
